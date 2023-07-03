@@ -25,7 +25,7 @@ public interface DishServive {
 
     DishDetailVo getDishDetail(Integer dishId);
 
-    DishSearchResponse getDishByName(String name, Integer pageIndex);
+    DishSearchResponse getDishByName(String name, String region, Integer pageIndex);
 
     DishSearchResponse getDishByCate(Integer cate,Integer pageIndex);
 

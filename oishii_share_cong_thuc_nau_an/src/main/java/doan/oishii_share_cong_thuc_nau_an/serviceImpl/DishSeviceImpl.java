@@ -110,7 +110,7 @@ public class DishSeviceImpl implements DishServive {
         return dishRepository.getDishDetail(dishID);
     }
 
-    public DishSearchResponse getDishByName(String name, Integer pageIndex) {
+    public DishSearchResponse getDishByName(String name,String region, Integer pageIndex) {
         if(name.trim()==null||name.trim().isEmpty()){
             throw new NotFoundException(StatusCode.Not_Found, "Bạn vui lòng nhập tên món ăn cần tìm kiếm");
         }
@@ -118,7 +118,12 @@ public class DishSeviceImpl implements DishServive {
             pageIndex = 1;
         }
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
-        List<Dish> dishList = dishRepository.findDishByNameOrMainIngredientLike(name.trim(), name.trim(), pageable);
+        List<Dish> dishList = new ArrayList<>();
+        if (region == null){
+            dishList = dishRepository.findDishByNameOrMainIngredientLike(name.trim(), name.trim(), pageable);
+        } else {
+            dishList = dishRepository.findDishByNameOrMainIngredientLikeByRegion(name.trim(), name.trim(), pageable, region);
+        }
         if (dishList.isEmpty()) {
             throw new NotFoundException(StatusCode.Not_Found, "Không tìm thấy món ăn phù hợp cho " + name);
         }
@@ -325,14 +330,7 @@ public class DishSeviceImpl implements DishServive {
 
         dish.setCalo(totalCalo);
         dish.setLevel(dishRequest.getLevel());
-        if (dishRequest.getLevel() == 1){
-            dish.setRegion("Miền Bắc");
-        } else if (dishRequest.getLevel() == 2) {
-            dish.setRegion("Miền Trung");
-        } else{
-            dish.setRegion("Miền Nam");
-        }
-
+        dish.setRegion(dishRequest.getRegion());
         dish.setNumberPeopleForDish(dishRequest.getNumberPeopleForDish());
         dish.setSize(dishRequest.getSize());
         dish.setTime(dishRequest.getTime());
