@@ -43,6 +43,9 @@ public class Account {
 	@Column(name = "phone", columnDefinition = "nvarchar(max)")
 	private String phone;
 
+	@Column(name = "cccd", columnDefinition = "nvarchar(max)")
+	private String cccd;
+
 	@Column(name = "avatarImage", columnDefinition = "nvarchar(max)")
 	private String avatarImage;
 

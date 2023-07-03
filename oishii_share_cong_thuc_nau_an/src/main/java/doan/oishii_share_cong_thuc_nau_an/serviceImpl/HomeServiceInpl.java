@@ -57,6 +57,7 @@ public class HomeServiceInpl implements HomeService {
         account.setWeight(profileRequest.getWeight());
         account.setUpdateDate(LocalDate.now());
         account.setAvatarImage(profileRequest.getAvatarImage());
+        account.setCccd(profileRequest.getCccd());
         accountRepository.save(account);
         return ResponseEntity.ok(new MessageResponse(StatusCode.Success,"Cập nhật profile thành công"));
     }

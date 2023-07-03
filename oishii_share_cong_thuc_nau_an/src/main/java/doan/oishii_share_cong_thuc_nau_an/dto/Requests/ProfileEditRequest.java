@@ -24,4 +24,6 @@ public class ProfileEditRequest {
     private Double weight;
 
     private String avatarImage;
+
+    private String cccd;
 }
