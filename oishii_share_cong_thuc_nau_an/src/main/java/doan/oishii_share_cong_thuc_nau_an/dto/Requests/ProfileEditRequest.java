@@ -26,4 +26,5 @@ public class ProfileEditRequest {
     private String avatarImage;
 
     private String cccd;
+    private String identity;
 }

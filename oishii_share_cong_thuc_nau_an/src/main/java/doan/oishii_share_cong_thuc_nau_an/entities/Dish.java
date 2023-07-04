@@ -26,8 +26,8 @@ public class Dish  {
     @Column(name = "name", columnDefinition = "nvarchar(max)")
     private String name;
 
-    @Column(name = "region", columnDefinition = "nvarchar(max)")
-    private String region;
+    @Column(name = "domain", columnDefinition = "nvarchar(max)")
+    private String domain;
 
     @Column(name = "origin", columnDefinition = "nvarchar(max)")
     private String origin;

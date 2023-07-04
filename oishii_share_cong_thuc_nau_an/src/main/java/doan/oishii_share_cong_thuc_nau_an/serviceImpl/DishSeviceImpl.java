@@ -330,7 +330,7 @@ public class DishSeviceImpl implements DishServive {
 
         dish.setCalo(totalCalo);
         dish.setLevel(dishRequest.getLevel());
-        dish.setRegion(dishRequest.getRegion());
+        dish.setDomain(dishRequest.getDomain());
         dish.setNumberPeopleForDish(dishRequest.getNumberPeopleForDish());
         dish.setSize(dishRequest.getSize());
         dish.setTime(dishRequest.getTime());

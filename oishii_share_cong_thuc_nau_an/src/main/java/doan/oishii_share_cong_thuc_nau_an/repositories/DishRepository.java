@@ -30,7 +30,7 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
             "(d.dishID,d.name, cast(d.createDate as string) ,f.formulaID,f.describe,a.userName,f.summary)" +
             " from Dish d join d.formulaId f join f.account a " +
             "where d.status = 1 and a.status <> 3 and (cast(d.dishID as string ) LIKE :searchData " +
-            "or d.name LIKE :searchData) and d.region like :mien order by d.dishID desc ")
+            "or d.name LIKE :searchData) and d.domain like :mien order by d.dishID desc ")
     public Page<DishFormulaVo> findAllRecipeByRegion(@Param("searchData") String searchData, @Param("mien") String mien, Pageable pageable);
 
     @Query("select new doan.oishii_share_cong_thuc_nau_an.common.vo.DishFormulaVo" +
@@ -48,7 +48,7 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
 
 
     @Query("select new doan.oishii_share_cong_thuc_nau_an.common.vo.DishDetailVo(" +
-            "d.dishID,d.name,d.region,d.origin,d.calo, d.level, d.numberPeopleForDish,d.size, cast(d.createDate as string), d.video, " +
+            "d.dishID,d.name,d.domain,d.origin,d.calo, d.level, d.numberPeopleForDish,d.size, cast(d.createDate as string), d.video, " +
             "f.formulaID,f.describe,a.userName,f.summary, d.time) " +
             "from Dish d join d.formulaId f join f.account a where  d.dishID = :dishID")
     public DishDetailVo getDishDetail(Integer dishID);
