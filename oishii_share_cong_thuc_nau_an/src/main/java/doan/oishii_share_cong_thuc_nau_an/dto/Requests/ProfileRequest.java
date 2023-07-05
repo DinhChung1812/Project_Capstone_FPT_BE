@@ -40,5 +40,6 @@ public class ProfileRequest {
     private LocalDate updateDate;
 
     private String avatarImage;
+    private String identity_mod;
 
 }

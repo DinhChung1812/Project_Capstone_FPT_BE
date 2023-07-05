@@ -17,4 +17,5 @@ public class AccountManageVo {
     private String email;
     private String avatarImage;
     private String createDate;
+    private String identity_mod;
 }

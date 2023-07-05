@@ -46,6 +46,8 @@ public class Account {
 	@Column(name = "cccd", columnDefinition = "nvarchar(max)")
 	private String cccd;
 
+
+
 	@Column(name = "avatarImage", columnDefinition = "nvarchar(max)")
 	private String avatarImage;
 
@@ -78,6 +80,9 @@ public class Account {
 
 	@Column(name = "status")
 	private Integer status;
+
+	@Column(name = "identity_mod", columnDefinition = "nvarchar(max)")
+	private String identity_mod;
 
 	@Column(name = "reset_password_token", columnDefinition = "nvarchar(max)")
 	private String resetPasswordToken;

@@ -29,7 +29,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer>  {
     public Account findAccountByEmail(String email);
 
     @Query("select  new doan.oishii_share_cong_thuc_nau_an.common.vo.AccountManageVo(" +
-            "a.accountId,a.userName,a.role,a.email,a.avatarImage, cast(a.createDate as string)" +
+            "a.accountId,a.userName,a.role,a.email,a.avatarImage, cast(a.createDate as string), a.identity_mod" +
             ") from Account a where a.status = 1 and (cast(a.accountId as string ) LIKE :searchData " +
             "or a.userName LIKE :searchData )")
     public Page<AccountManageVo> findAll(String searchData, Pageable pageable);

@@ -65,7 +65,7 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     @Query(value = "(select distinct d.*, ft.rank r1 from Dish d left join ingredient_detail id on d.dish_id=id.dish_id left join freetexttable(dish,name,:name) ft on d.dish_id = ft.[key]\n" +
             "            left join freetexttable (ingredient_detail,name,:ingredient) fti on id.ingredient_detail_id = fti.[key]\n" +
-            "            and (d.status=1 and id.main_ingredient = 1)where ft.rank>45 and ft.rank<=200 and d.region = :region) order by ft.rank desc", nativeQuery = true)
+            "            and (d.status=1 and id.main_ingredient = 1)where ft.rank>45 and ft.rank<=200 and d.domain = :region) order by ft.rank desc", nativeQuery = true)
     public List<Dish> findDishByNameOrMainIngredientLikeByRegion(String name, String ingredient, Pageable pageable, String region);
 
     @Query(value = "select d.* from dish d left join dish_dish_category ddc on d.dish_id = ddc.dish_id\n" +

@@ -41,6 +41,7 @@ public class HomeServiceInpl implements HomeService {
         request.setAvatarImage(account.getAvatarImage());
         request.setUpdateDate(account.getUpdateDate());
         request.setCreateDate(account.getCreateDate());
+        request.setIdentity_mod(account.getIdentity_mod());
         return request;
     }
 
