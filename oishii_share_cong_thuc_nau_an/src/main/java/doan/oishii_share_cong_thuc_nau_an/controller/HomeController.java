@@ -122,8 +122,8 @@ public class HomeController {
 //    search recipe by cate
 //    http://localhost:8080/searchdishbycate?cateId=1
     @GetMapping("/searchdishbycate")
-    public ResponseEntity<?> getDishBycate(@RequestParam("cateId") Integer cate,@RequestParam(value = "page_index",required = false)Integer pageIndex) {
-        DishSearchResponse dishes = dishServive.getDishByCate(cate,pageIndex);
+    public ResponseEntity<?> getDishBycate(@RequestParam("cateId") Integer cate,@RequestParam(value = "page_index",required = false)Integer pageIndex, @RequestParam(value = "searchData",required = false)String searchData , @RequestParam(value = "domain",required = false)String domain) {
+        DishSearchResponse dishes = dishServive.getDishByCate(cate,pageIndex, searchData, domain);
         return ResponseEntity.ok(dishes);
     }
 

@@ -184,12 +184,18 @@ public class DishSeviceImpl implements DishServive {
         return dishSearchResponse;
     }
 
-    public DishSearchResponse getDishByCate(Integer cate, Integer pageIndex) throws NotFoundException {
+    public DishSearchResponse getDishByCate(Integer cate, Integer pageIndex,String searchData, String domain) throws NotFoundException {
         if (pageIndex == null || pageIndex <= 0) {
             pageIndex = 1;
         }
         Pageable pageable = PageRequest.of(pageIndex - 1, 5);
-        List<Dish> dishList = dishRepository.findDishByDishCategory(cate, pageable);
+        String search = "%"+searchData+"%";
+        List<Dish> dishList = new ArrayList<>();
+        if (domain == ""){
+            dishList = dishRepository.findDishByDishCategory(cate, pageable);
+        } else {
+            dishList = dishRepository.findDishByDishCategoryByDomain(cate, pageable, search, domain);
+        }
         if (dishList.isEmpty()) {
             throw new NotFoundException(StatusCode.Not_Found, "Không có món ăn cho thể loại này");
         }

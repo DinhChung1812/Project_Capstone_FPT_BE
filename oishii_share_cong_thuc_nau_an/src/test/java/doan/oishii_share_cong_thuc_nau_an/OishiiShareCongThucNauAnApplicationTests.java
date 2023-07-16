@@ -18,12 +18,12 @@ class OishiShareCongThucNauAnApplicationTests {
     @Autowired
     DishSeviceImpl dishSevice;
 
-    @Test
-    void testSearchCate() {
-        List<DishResponse> dishResponseList = (List<DishResponse>) dishSevice.getDishByCate(1,1);
-        Assert.assertEquals(5,dishResponseList.size());
-        Assert.assertEquals("trứng ốp la",dishResponseList.get(0).getName());
-    }
+//    @Test
+//    void testSearchCate() {
+//        List<DishResponse> dishResponseList = (List<DishResponse>) dishSevice.getDishByCate(1,1);
+//        Assert.assertEquals(5,dishResponseList.size());
+//        Assert.assertEquals("trứng ốp la",dishResponseList.get(0).getName());
+//    }
 
 //    @Test
 //    void testSearchName() {

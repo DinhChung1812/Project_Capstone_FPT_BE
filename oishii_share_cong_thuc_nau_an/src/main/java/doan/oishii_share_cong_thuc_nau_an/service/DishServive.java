@@ -27,7 +27,7 @@ public interface DishServive {
 
     DishSearchResponse getDishByName(String name, String region, Integer pageIndex);
 
-    DishSearchResponse getDishByCate(Integer cate,Integer pageIndex);
+    DishSearchResponse getDishByCate(Integer cate,Integer pageIndex, String searchData, String domain);
 
     List<DishResponse> getTop5New();
 

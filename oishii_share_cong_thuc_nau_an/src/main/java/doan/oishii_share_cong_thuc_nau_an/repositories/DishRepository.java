@@ -73,6 +73,11 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
             "\t\t\t\t\t where dc.dish_category_id = :id and d.status=1", nativeQuery = true)
     public List<Dish> findDishByDishCategory(Integer id, Pageable pageable);
 
+    @Query(value = "select d.* from dish d left join dish_dish_category ddc on d.dish_id = ddc.dish_id\n" +
+            " join dish_category dc on ddc.dish_categoryid = dc.dish_category_id\n" +
+            " where dc.dish_category_id = :id and d.status=1 and d.name like :searchData and d.domain like :domain ", nativeQuery = true)
+    public List<Dish> findDishByDishCategoryByDomain(Integer id, Pageable pageable, String searchData, String domain);
+
     @Query(value = "select distinct top 5 * from dish d where d.status=1 order by d.create_date desc, d.dish_Id desc ", nativeQuery = true)
     public List<Dish> getTop5ByNew();
 
@@ -160,14 +165,14 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     @Query(value = "select MAX(t.dish_id) as dish_id, SUM(t.sum_start) as sum_start, COUNT(t.account_id) as sum_account, MAX(t.name) as name_dish, MAX(t.name_category) as name_category, MAX(t.mien) as mien, MAX(t.create_date) as create_date, MAX(acc.name) as create_by from \n" +
             "(\n" +
-            "\tselect a.account_id, d.dish_id, MAX(d.name) as [name], MAX(dca.name) as name_category,MAX(d.region) as mien, MAX(d.create_date) as create_date, MAX(f.account_id) as create_by, AVG(dc.start_rate) as sum_start \n" +
+            "\tselect a.account_id, d.dish_id, MAX(d.name) as [name], MAX(dca.name) as name_category,MAX(d.domain) as mien, MAX(d.create_date) as create_date, MAX(f.account_id) as create_by, AVG(dc.start_rate) as sum_start \n" +
             "\tfrom dish d \n" +
             "\tjoin dish_dish_category ddc on ddc.dish_id = d.dish_id\n" +
             "\tjoin dish_category dca on ddc.dish_categoryid = dca.dish_category_id\n" +
             "\tjoin formula f on d.formula_id = f.formula_id\n" +
             "\tjoin dish_comment dc on d.dish_id = dc.dish_id\n" +
             "\tjoin account a on dc.account_id = a.account_id\n" +
-            "\twhere d.dish_id = 5 and d.region like :mien and d.create_date >= :from_date and d.create_date <= :to_date\n" +
+            "\twhere d.domain like :mien and d.create_date >= :from_date and d.create_date <= :to_date\n" +
             "\tgroup by a.account_id, d.dish_id\n" +
             ") as t \n" +
             "join account acc on t.create_by = acc.account_id\n" +
