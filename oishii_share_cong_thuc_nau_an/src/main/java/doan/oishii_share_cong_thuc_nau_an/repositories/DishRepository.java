@@ -100,10 +100,10 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     public Dish findByDishID(Integer id);
 
     @Query(value = "UPDATE dbo.dish \n" +
-            "SET name = :name,calo = :calo, level= :level, number_people_for_dish= :number_people_for_dish,size= :size,time= :time,video_url= :video_url \n" +
+            "SET name = :name, domain = :domain, calo = :calo, level= :level, number_people_for_dish= :number_people_for_dish,size= :size,time= :time,video_url= :video_url \n" +
             "WHERE dish_id = :dish_id", nativeQuery = true)
     @Modifying
-    public void updateRecipe(String name, Integer calo, Integer level, Integer number_people_for_dish, Integer size, Integer time, String video_url, Integer dish_id);
+    public void updateRecipe(String name,String domain, Integer calo, Integer level, Integer number_people_for_dish, Integer size, Integer time, String video_url, Integer dish_id);
 
     @Query(value = "UPDATE dish SET status = 3 WHERE dish_id= :recipeId", nativeQuery = true)
     @Modifying
