@@ -98,7 +98,9 @@ public class RecipeManageController {
         LogUtils.getLog().info("END getRecipeOfCreater");
         return ResponseEntity.ok(model);
     }
-
+    //Controller sẽ nhận các request tu client để xử lý yêu cầu
+    //Ở api sẽ request về 1 dish
+    //Sau đó sẽ gọi đến createNewRecipe ở bên service đẻ xử lý logic cũng như là save vào database
     @PostMapping("/mod/createrecipe")
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_MOD')")
     public ResponseEntity<?> createRecipe(@RequestBody Dish dishRequest) {

@@ -303,7 +303,9 @@ public class DishSeviceImpl implements DishServive {
 
 
     public ResponseEntity<?> createNewRecipe(Dish dishRequest) {
+        //Khởi tạo 1 entity trống
         Dish dish = new Dish();
+        //Kiểm tra request trả về nếu null thì bắn ra mess và thoát hàm
         if (dishRequest.getName().trim().isEmpty()) {
             return new ResponseEntity(new MessageResponse(StatusCode.Lack_Of_Information, "Thiếu tên món ăn"), HttpStatus.BAD_REQUEST);
         } else if (dishRequest.getLevel() == null) {
@@ -325,15 +327,16 @@ public class DishSeviceImpl implements DishServive {
         } else if (dishRepository.existsDishByNameAndStatus(dishRequest.getName(), 1)) {
             return new ResponseEntity<>(new MessageResponse(StatusCode.Duplicate, "Tên món ăn bị trùng với món ăn khác"), HttpStatus.BAD_REQUEST);
         }
-
+        //Truyền giá trị name cho dish vừa khởi tạo ở trên
         dish.setName(dishRequest.getName());
+        //Tương tự như name
         dish.setOrigin(dishRequest.getOrigin());
-
+        //Lấy ra list các nguyên liệu cho moón ăn và dùng vòng for để cộng toàn bộ calo của từng nguyên liệu để rra đc calo của món ăn
         int totalCalo = 0;
         for (IngredientDetail d : dishRequest.getListIngredientDetail()) {
             totalCalo += d.getCalo();
         }
-
+        // sau đó truyền giá trị total calo vào dish
         dish.setCalo(totalCalo);
         dish.setLevel(dishRequest.getLevel());
         dish.setDomain(dishRequest.getDomain());
@@ -343,17 +346,22 @@ public class DishSeviceImpl implements DishServive {
         dish.setVideo(dishRequest.getVideo());
         dish.setCreateDate(LocalDate.now());
         dish.setStatus(1);
-
+        // Giữ ctrl + Chuột trái vào insertFormulaAndStep để nhảy vào hàm con có chức năng insert các fomular vào bảng Fomular
         Formula formula = insertFormulaAndStep(dishRequest);
+        //Sau khi insert các fomular thì sẽ trả về 1 fomular vừa insert sau đó truyền fomular này vào dish
         dish.setFormulaId(formula);
+
+        //Save dish vừa khởi tạo sau khi vừa đc truyền giá trị ở trên và lấy ra ID vừa của Dish vừa save
         int dishId = dishRepository.save(dish).getDishID();
         dish.setDishID(dishId);
         dishRequest.setDishID(dishId);
-
+        //Insert các nguyên liệu chính vào bảng IngredientDetail
         insertIngredientDetailAndIngredientChange(dishRequest);
-
+        //Insert thể loại món ăn
         insertCategory(dish.getDishID(), dishRequest);
+        //Insert ảnh món ăn
         insertImage(dishRequest);
+        //Nếu k có lỗi các bước trên sẽ bắn về controller 1 mess "Thêm món ăn thành công"
         return ResponseEntity.ok(new MessageResponse(StatusCode.Success, "Thêm món ăn thành công"));
     }
 
