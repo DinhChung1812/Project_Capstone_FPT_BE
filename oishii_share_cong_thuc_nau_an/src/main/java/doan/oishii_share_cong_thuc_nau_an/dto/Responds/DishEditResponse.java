@@ -11,6 +11,7 @@ public class DishEditResponse {
     private Integer dishID;
     private String name;
     private String origin;
+    private String domain;
     private Integer calo;
     private Integer level;
     private Integer numberPeopleForDish;

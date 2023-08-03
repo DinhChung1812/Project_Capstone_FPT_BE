@@ -490,7 +490,7 @@ public class DishSeviceImpl implements DishServive {
             totalCalo += d.getCalo();
         }
 
-        dishRepository.updateRecipe(dishRequest.getName(), totalCalo, dishRequest.getLevel(), dishRequest.getNumberPeopleForDish(), dishRequest.getSize(), dishRequest.getTime(), dishRequest.getVideo(), dishId);
+        dishRepository.updateRecipe(dishRequest.getName(), dishRequest.getDomain(), totalCalo, dishRequest.getLevel(), dishRequest.getNumberPeopleForDish(), dishRequest.getSize(), dishRequest.getTime(), dishRequest.getVideo(), dishId);
 
         updateFormulaAndStep(dishRequest);
 
@@ -1055,6 +1055,7 @@ public class DishSeviceImpl implements DishServive {
         response.setDishID(dish.getDishID());
         response.setName(dish.getName());
         response.setOrigin(dish.getOrigin());
+        response.setDomain(dish.getDomain());
         response.setCalo(dish.getCalo());
         response.setLevel(dish.getLevel());
         response.setNumberPeopleForDish(dish.getNumberPeopleForDish());
