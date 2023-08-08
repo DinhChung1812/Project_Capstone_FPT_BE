@@ -113,8 +113,10 @@ public class HomeController {
 
     //search recipe by name
     //http://localhost:8080/searchdishbyname?name=c
+    //Controller nhân request về để thực hiện search (name và domain và page_index(required = false nên có thể có hoặc không))
     @GetMapping("/searchdishbyname")
     public ResponseEntity<?> getDishByName(@RequestParam("name") String name,@RequestParam(value = "page_index",required = false)Integer pageIndex,@RequestParam(value = "domain",required = false)String domain) {
+        //Sau khi thực hiện hàm getDishByName trong dishServive thì sẽ trả về cho mk đc món ăn theo yêu cầu search
         DishSearchResponse dishes = dishServive.getDishByName(name,domain,pageIndex);
         return ResponseEntity.ok(dishes);
     }

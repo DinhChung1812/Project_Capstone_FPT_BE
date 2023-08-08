@@ -111,25 +111,41 @@ public class DishSeviceImpl implements DishServive {
     }
 
     public DishSearchResponse getDishByName(String name,String region, Integer pageIndex) {
+        //Kiểm tra nếu name trả về là null(nghĩa là trên client chưa nhập nên controller nhận về null) sẽ bắn ra mess lỗi
         if(name.trim()==null||name.trim().isEmpty()){
             throw new NotFoundException(StatusCode.Not_Found, "Bạn vui lòng nhập tên món ăn cần tìm kiếm");
         }
+
+        //Kiểm tra page index trả về nếu page null hoặc để page bằng 0 thì sẽ set page mặc định là 1(nghĩa là lấy dữ liệu ở trang 1)
         if (pageIndex == null || pageIndex <= 0) {
             pageIndex = 1;
         }
+        //Set page và size trong 1 page
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
+        //Khởi tạo 1 list Dish để nhận giá trị khi repository thực hiện lấy dữ liệu từ db lên
         List<Dish> dishList = new ArrayList<>();
+        //Kiểm tra nếu miền bằng null thì k search theo miền nếu miền có giá trị thì search thêm cả miền
         if (region == null){
+            // Đây là repository search k cần miền
             dishList = dishRepository.findDishByNameOrMainIngredientLike(name.trim(), name.trim(), pageable);
         } else {
+            // Đây là repository search theo miền
             dishList = dishRepository.findDishByNameOrMainIngredientLikeByRegion(name.trim(), name.trim(), pageable, region);
         }
+
+        //Kiểm tra list:Nếu list null thì có nghĩ là không có món ăn theo điều kiện search sẽ bắn ra lỗi
         if (dishList.isEmpty()) {
             throw new NotFoundException(StatusCode.Not_Found, "Không tìm thấy món ăn phù hợp cho " + name);
         }
+
+        //Nếu tìm thấy món ăn sẽ đổ lại các món ăn tìm đc ra 1 cái DishResponse mới. Bước này là khởi tạo ra 1 list DishReponse mới
         List<DishResponse> dishResponseList = new ArrayList<>();
+        //Duyệt lần lượt các món ăn tìm thấy
         for (Dish d : dishList) {
+            //Khởi tạo DishResponse. Với mỗi Dish thì sẽ add vào 1 DishResponse
             DishResponse dishResponse = new DishResponse();
+
+            //Đoạn này truyển lần lượt giá trị của từng Dish vào DishResponse
             dishResponse.setDishID(d.getDishID());
             dishResponse.setName(d.getName());
             dishResponse.setLevel(d.getLevel());
@@ -155,16 +171,18 @@ public class DishSeviceImpl implements DishServive {
 
             BigDecimal bd = new BigDecimal(starRate).setScale(2, RoundingMode.HALF_UP);
             double formatStarRate = bd.doubleValue();
-
+            //Đây là sao đánh giá
             dishResponse.setAvgStarRate(formatStarRate);
 
             dishResponse.setQuantityRate(quantity);
 
-
+            //Đây là lấy ảnh của món ăn
             for (DishImage di : d.getListDishImage()) {
                 dishResponse.setImage(di.getUrl());
                 break;
             }
+
+            //Sau khi truyền giá trị xong thì add vào list<>(DishResponse) dishResponseList
             dishResponseList.add(dishResponse);
         }
 
